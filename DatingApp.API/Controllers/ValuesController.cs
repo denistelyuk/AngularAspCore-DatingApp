@@ -9,7 +9,8 @@ using Microsoft.Extensions.Options;
 namespace App.Controllers
 {
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    [ApiController]
+    public class ValuesController : ControllerBase
     {
 
         private readonly DataContext _context;
