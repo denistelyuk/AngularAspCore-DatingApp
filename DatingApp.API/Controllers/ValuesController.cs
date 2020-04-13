@@ -9,7 +9,7 @@ using Microsoft.Extensions.Options;
 
 namespace App.Controllers
 {
-    [Authorize]
+    
     [Route("api/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase
@@ -22,7 +22,7 @@ namespace App.Controllers
             _context = context;
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin, Moderator")]
         [HttpGet]
         public async Task<IActionResult> GetValues()
         {
@@ -30,7 +30,7 @@ namespace App.Controllers
             return Ok(values);
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles = "Member")]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {

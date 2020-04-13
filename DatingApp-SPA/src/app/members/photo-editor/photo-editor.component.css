@@ -11,3 +11,16 @@ img.img-thumbnail {
 input[type=file] {
     color: transparent
 }
+
+
+img.not-approved  {
+    opacity: 0.3;
+}
+
+.wrn-approve-required {
+    position: absolute;
+    bottom: 30%;
+    left: 0;
+    font-size: smaller;
+    color: red;
+}

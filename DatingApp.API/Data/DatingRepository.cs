@@ -28,11 +28,14 @@ namespace DatingApp.API.Data
             _context.Remove(entity);
         }
 
-        public async Task<User> GetUser(int userId)
+        public async Task<User> GetUser(int userId, bool isCurrentUser = false)
         {
-            var user = await _context.Users
-                .FirstOrDefaultAsync(u => u.Id == userId);
-
+            var user = isCurrentUser ? 
+                await _context.Users
+                    .Include(u => u.Photos)
+                    .IgnoreQueryFilters()
+                    .FirstOrDefaultAsync(u => u.Id == userId)
+                : await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
             return user;
         }
 
@@ -80,7 +83,7 @@ namespace DatingApp.API.Data
 
         public async Task<Photo> GetPhoto(int id)
         {
-            var photo = await _context.Photos.FirstOrDefaultAsync(p => p.Id == id);
+            var photo = await _context.Photos.IgnoreQueryFilters().FirstOrDefaultAsync(p => p.Id == id);
             return photo;
         }
 
@@ -149,6 +152,13 @@ namespace DatingApp.API.Data
                 .ToListAsync();
 
             return messages;
+        }
+
+        public async Task<List<Photo>> GetPhotosForModeration()
+        {
+            return await _context.Photos.IgnoreQueryFilters()
+                .Where(p => !p.IsApproved)
+                .ToListAsync();
         }
     }
 }

@@ -18,7 +18,6 @@ export class MemberEditComponent implements OnInit {
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any) {
     if (this.editForm.dirty) {
-      console.log($event);
       $event.returnValue = true;
     }
   }
